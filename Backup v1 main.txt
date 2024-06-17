@@ -1,0 +1,379 @@
+#include "SFML/Graphics.hpp"
+#include <iostream>
+#include "Poze.h"
+#include "Sound.h"
+#include "Texte.h"
+
+#define RESET   "\033[0m"
+#define RED     "\033[31m"
+#define GREEN   "\033[32m"
+
+
+
+int main() {
+    sf::RenderWindow DisplayGame(sf::VideoMode(800, 800), "The Darkest Battle");
+   
+    //int DerulatorReset = 0;
+   // int DerulatorJoc = 0;
+    int DerulatorSunet = 0;
+    int DerulatorJoc = 0;
+    int TimpPrezentareText = 10;
+    bool cursorPeTextNext = false;
+    bool butonClicat = false; // Indicator pentru clic
+    //Mutarea personajelor
+    sf::Clock clock;
+    float totalTime = 3.f; // Timpul total (3 secunde)
+    float elapsedTime = 0.f;
+
+
+    sf::Font Font4Text;
+    Font4Text.loadFromFile("GreatVibes-Regular.ttf");
+    if (!Font4Text.loadFromFile("GreatVibes-Regular.ttf"))
+    {
+        std::cout << RED << "Eroare incarcare sunet GreatVibes-Regular" << RESET << std::endl;
+    }
+    else {
+        std::cout << GREEN << "Sunetul GreatVibes-Regular s-a incarcat cu succes." << RESET << std::endl;
+    }
+
+
+    // Creează o instanță a clasei Poze
+    Poze poze;
+    // Apelează metoda pentru a încărca textura și seta sprite-ul
+    poze.Background();
+    poze.Pergament();
+    poze.Goblin();
+    poze.Orc();
+    poze.Troll();
+
+    // Accesează sprite-ul folosind metoda publică 
+    sf::Sprite& spriteBackground = poze.getSpriteBackground();
+    sf::Sprite& spritePergament = poze.getSpritePergament();
+    sf::Sprite& spriteGoblin = poze.getSpriteGoblin();
+    sf::Texture& textureGoblin = poze.gettextureGoblin();
+    sf::Sprite& spriteOrc = poze.getSpriteOrc();
+    sf::Texture& textureOrc = poze.gettextureOrc();
+    sf::Sprite& spriteTroll = poze.getSpriteTroll();
+    sf::Texture& textureTroll = poze.gettextureTroll();
+
+
+    // Creează o instanță a clasei Sound
+    Sound sound;
+    // Apelează metod
+    sound.Sound_Menu();
+    // sound.Sound_Goblin();
+    // sound.Sound_Orc();
+     //sound.Sound_Troll();
+    sound.Sound_Laugh();
+    sound.Sound_ChooseYourDestiny();
+    sound.Sound_Exploring();
+    sound.Sound_BattleFinal();
+    // Accesează sprite-ul folosind metoda publică 
+    sf::Sound& SoundMenu = sound.getSoundMenu();
+    // sf::Sound& SoundGoblin = sound.getSoundGoblin();
+    //  sf::Sound& SoundOrc = sound.getSoundOrc();
+    // sf::Sound& SoundTroll = sound.getSoundTroll();
+    sf::Sound& SoundChooseYourDestiny = sound.getSoundChooseYourDestiny();
+    sf::Sound& SoundExploring = sound.getSoundExploring();
+    sf::Sound& SoundBattleFinal = sound.getSoundBattleFinal();
+
+    // Creează o instanță a clasei Texte
+    Texte texte;
+    //Apelam o metoda
+    texte.Text_GameName();
+    texte.Text_Goblin();
+    texte.Text_Goblin_Name();
+    texte.Text_Orc();
+    texte.Text_Orc_Name();
+    texte.Text_Troll();
+    texte.Text_Troll_Name();
+    texte.Text_Play();
+    texte.Text_Exit();
+    texte.Text_RestartIntro();
+    texte.Text_Next();
+    // Accesează Text folosind metoda publică 
+    sf::Text& NumeJoc = texte.getNumeJoc();
+    sf::Text& GoblinText = texte.getGoblinText();
+    sf::Text& GoblinName = texte.getGoblinName();
+    sf::Text& OrcText = texte.getGoblinText();
+    sf::Text& OrcName = texte.getOrcName();
+    sf::Text& TrollText = texte.getTrollText();
+    sf::Text& TrollName = texte.getTrollName();
+    sf::Text& PlayText = texte.getTextPlay();
+    sf::Text& ExitText = texte.getTextExit();
+    sf::Text& RestartInstroText = texte.getRestartInstro();
+    sf::Text& TextNext = texte.getNext();
+
+    // Titlul Jocului
+    NumeJoc.setCharacterSize(65);
+    NumeJoc.setPosition(170, 50);
+    NumeJoc.setFillColor(sf::Color::White);
+    NumeJoc.setFont(Font4Text);
+
+    // Goblin Prezentare 
+    GoblinText.setCharacterSize(28);
+    GoblinText.setPosition(110, 315);
+    GoblinText.setFillColor(sf::Color::White);
+    GoblinText.setFont(Font4Text);
+    //Goblin Nume
+    GoblinName.setCharacterSize(38);
+    GoblinName.setPosition(350, 265);
+    GoblinName.setFillColor(sf::Color::White);
+    GoblinName.setFont(Font4Text);
+    //Goblin Poza
+    sf::Vector2f targetSizeGoblin(200.0f, 200.0f);
+    float scaleGoblinX, scaleGoblinY;
+    scaleGoblinX = targetSizeGoblin.x / textureGoblin.getSize().x;
+    scaleGoblinY = targetSizeGoblin.y / textureGoblin.getSize().y;
+    spriteGoblin.setScale(scaleGoblinX, scaleGoblinY);
+    spriteGoblin.setPosition(300, 600);
+
+
+
+    //Orc Prezentare
+    OrcText.setCharacterSize(28);
+    OrcText.setPosition(110, 315);
+    OrcText.setFillColor(sf::Color::White);
+    OrcText.setFont(Font4Text);
+    //Orc Nume
+    OrcName.setCharacterSize(38);
+    OrcName.setPosition(350, 265);
+    OrcName.setFillColor(sf::Color::White);
+    OrcName.setFont(Font4Text);
+    //orc Poza
+    sf::Vector2f targetSizeOrc(200.0f, 200.0f);
+    float scaleOrcX, scaleOrcY;
+    scaleOrcX = targetSizeOrc.x / textureOrc.getSize().x;
+    scaleOrcY = targetSizeOrc.y / textureOrc.getSize().y;
+    spriteOrc.setScale(scaleOrcX, scaleOrcY);
+    spriteOrc.setPosition(300, 600);
+
+    // Troll Prezentare 
+    TrollText.setCharacterSize(28);
+    TrollText.setPosition(110, 315);
+    TrollText.setFillColor(sf::Color::White);
+    TrollText.setFont(Font4Text);
+    //Troll Nume
+    TrollName.setCharacterSize(38);
+    TrollName.setPosition(350, 265);
+    TrollName.setFillColor(sf::Color::White);
+    TrollName.setFont(Font4Text);
+    //Troll Poza
+    sf::Vector2f targetSizeTroll(200.0f, 200.0f);
+    float scaleTrollX, scaleTrollY;
+    scaleTrollX = targetSizeTroll.x / textureTroll.getSize().x;
+    scaleTrollY = targetSizeTroll.y / textureTroll.getSize().y;
+    spriteTroll.setScale(scaleTrollX, scaleTrollY);
+    spriteTroll.setPosition(300, 600);
+
+    //Display Play
+    PlayText.setCharacterSize(35);
+    PlayText.setPosition(180, 470);
+    PlayText.setFillColor(sf::Color::White);
+    PlayText.setFont(Font4Text);
+
+    //Display Exit
+    ExitText.setCharacterSize(35);
+    ExitText.setPosition(380, 470);
+    ExitText.setFillColor(sf::Color::White);
+    ExitText.setFont(Font4Text);
+
+    //Display Restart Instro
+    RestartInstroText.setCharacterSize(35);
+    RestartInstroText.setPosition(540, 470);
+    RestartInstroText.setFillColor(sf::Color::White);
+    RestartInstroText.setFont(Font4Text);
+
+    //Next button
+    TextNext.setCharacterSize(35);
+    TextNext.setPosition(600, 700);
+    TextNext.setFillColor(sf::Color::Black);
+    TextNext.setFont(Font4Text);
+
+    spritePergament.setPosition(0, 40);
+
+    if (DerulatorSunet == 0) {
+        SoundMenu.play();
+
+    }
+
+
+
+    while (DisplayGame.isOpen()) {
+        sf::Event event;
+        // Obține poziția cursorului mouse-ului în coordonate locale
+
+        while (DisplayGame.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                // Apel destructor. Trebuie sa il declar :-)
+                DisplayGame.close();
+        }
+
+        DisplayGame.clear();
+        DisplayGame.draw(spriteBackground);
+        DisplayGame.draw(spritePergament);
+        DisplayGame.draw(NumeJoc);
+        DisplayGame.draw(TextNext);
+       // DisplayGame.display();
+
+        // Verificăm poziția cursorului
+        sf::Vector2i mousePos = sf::Mouse::getPosition(DisplayGame);
+        if (mousePos.x >= 600 && mousePos.y >= 700) {
+            // Cursorul se află pe TextNext
+            TextNext.setFillColor(sf::Color::Red); // Schimbăm culoarea la roșu
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                // Incrementare DerulatorNext la fiecare clic
+               
+                if (!butonClicat) {
+                    // Incrementare DerulatorNext doar o dată
+                    DerulatorJoc++;
+                    butonClicat = true;
+                }
+            }
+        }
+        else {
+            // Cursorul nu se află pe TextNext
+            TextNext.setFillColor(sf::Color::Green); // Revenim la culoarea verde
+            butonClicat = false;
+        }
+       // std::cout << "Derulator joc : " << DerulatorJoc << std::endl;
+
+        // Prezentare Goblin
+        if (DerulatorJoc == 0) {
+            //Conversie de la sf::Text la std::string
+            std::string GoblinString = GoblinText.getString().toAnsiString();
+            if (DerulatorJoc == 0) {
+                //  std::cout << DerulatorJoc << std::endl;
+                for (size_t i = 0; i < GoblinString.size(); ++i) {
+                    DisplayGame.clear();
+                    // Afișează doar primele i caractere
+                    GoblinText.setString(GoblinString.substr(0, i + 1));
+                    DisplayGame.draw(spriteBackground);
+                    DisplayGame.draw(spritePergament);
+                    DisplayGame.draw(NumeJoc);
+                    DisplayGame.draw(GoblinName);
+                    DisplayGame.draw(GoblinText);
+                    DisplayGame.display(); // Actualizează fereastra
+                    sf::sleep(sf::milliseconds(TimpPrezentareText)); // Așteaptă 100 ms între caractere
+                }
+                DerulatorJoc = 1;
+            }
+        }
+        else if (DerulatorJoc == 1) {
+            // std::cout << DerulatorJoc << std::endl;
+            DisplayGame.draw(NumeJoc);
+            DisplayGame.draw(GoblinName);
+            DisplayGame.draw(GoblinText);
+            DisplayGame.draw(spriteGoblin);
+            DisplayGame.draw(TextNext);
+            DisplayGame.display();
+            if (DerulatorSunet == 0 && DerulatorJoc == 1) {
+                sound.Sound_Goblin();
+                sf::Sound& SoundGoblin = sound.getSoundGoblin();
+                DerulatorSunet = DerulatorSunet + 1;
+            }
+        }
+
+
+    //Prezentare Orc
+         if (DerulatorJoc == 2) {
+        //Conversie de la sf::Text la std::string
+           std::string OrcString = OrcText.getString().toAnsiString();
+             if (DerulatorJoc == 2) {
+            //  std::cout << DerulatorJoc << std::endl;
+               for (size_t i = 0; i < OrcString.size(); ++i) {
+                DisplayGame.clear();
+                // Afișează doar primele i caractere
+                OrcText.setString(OrcString.substr(0, i + 1));
+                DisplayGame.draw(spriteBackground);
+                DisplayGame.draw(spritePergament);
+                DisplayGame.draw(NumeJoc);
+                DisplayGame.draw(OrcName);
+                DisplayGame.draw(OrcText);
+                DisplayGame.display(); // Actualizează fereastra
+                sf::sleep(sf::milliseconds(TimpPrezentareText)); // Așteaptă 100 ms între caractere
+               }
+                DerulatorJoc = 3;
+             }
+   
+         }
+         else  if (DerulatorJoc == 3) {
+             DisplayGame.draw(spritePergament);
+             DisplayGame.draw(NumeJoc);
+             DisplayGame.draw(OrcName);
+             DisplayGame.draw(OrcText);
+             DisplayGame.draw(spriteOrc);
+             DisplayGame.draw(TextNext);
+             DisplayGame.display();
+             //Apelam Sunetul
+             if (DerulatorSunet == 1 && DerulatorJoc == 3) {
+                 sound.Sound_Orc();
+                 sf::Sound& SoundOrc = sound.getSoundOrc();
+                 DerulatorSunet = DerulatorSunet + 1;
+             }
+     
+         }
+
+         //Prezentare Troll
+         if (DerulatorJoc == 4) {
+             //Conversie de la sf::Text la std::string
+             std::string TrollString = TrollText.getString().toAnsiString();
+             if (DerulatorJoc == 4) {
+                 //  std::cout << DerulatorJoc << std::endl;
+                 for (size_t i = 0; i < TrollString.size(); ++i) {
+                     DisplayGame.clear();
+                     // Afișează doar primele i caractere
+                     TrollText.setString(TrollString.substr(0, i + 1));
+                     DisplayGame.draw(spriteBackground);
+                     DisplayGame.draw(spritePergament);
+                     DisplayGame.draw(NumeJoc);
+                     DisplayGame.draw(TrollName);
+                     DisplayGame.draw(TrollText);
+                     DisplayGame.display(); // Actualizează fereastra
+                     sf::sleep(sf::milliseconds(TimpPrezentareText)); // Așteaptă 100 ms între caractere
+                 }
+                 DerulatorJoc = 5;
+             }
+
+         }
+         else  if (DerulatorJoc == 5) {
+             DisplayGame.draw(spritePergament);
+             DisplayGame.draw(NumeJoc);
+             DisplayGame.draw(TrollName);
+             DisplayGame.draw(TrollText);
+             DisplayGame.draw(spriteTroll);
+             DisplayGame.draw(TextNext);
+             DisplayGame.display();
+             //Apelam Sunetul
+             if (DerulatorSunet == 2 && DerulatorJoc == 5) {
+                 sound.Sound_Troll();
+                 sf::Sound& SoundOrc = sound.getSoundTroll();
+                 DerulatorSunet = DerulatorSunet + 1;
+             }
+
+
+         }
+
+
+         if (DerulatorJoc == 6) {
+             DisplayGame.display();
+         }
+
+    }
+       
+        
+    
+
+    
+
+    
+
+    }
+
+
+
+
+
+
+
+
