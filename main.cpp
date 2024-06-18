@@ -20,6 +20,8 @@ int main() {
     int DerulatorJoc = 10; // De modificat in 0
     int TimpPrezentareText = 55; // De setat viteza de 55
     int TimpDeplasarePersonaje = 10;
+    int PowerJucator = 10;
+    int PowerComputer = 10;
     bool cursorPeTextNext = false;
     bool butonClicat = false; // Indicator pentru clic
     int goblinx = 300, gobliny = 600, orcx = 300, orcy = 600, trollx = 300, trolly = 600;
@@ -30,6 +32,8 @@ int main() {
     float elapsedTime = 0.f;
     // Alegem personajele Random
     int secret_box1 = 0, secret_box2 = 0, secret_box3 = 0, PlayerAlegere = 0, CalculatorAlege = 0;
+    // Cine incepe jocul
+    int startGame = 0;
     // Variabila pentru a stoca numele introdus
     std::string inputName;
 
@@ -259,6 +263,17 @@ int main() {
     NumeJucator.setFillColor(sf::Color::White);
     NumeJucator.setFont(Font4Text);
    
+    sf::Text jucator;
+    jucator.setFont(Font4Text);
+    jucator.setString(std::to_string(PowerJucator));
+    jucator.setCharacterSize(24);
+    jucator.setPosition(160, 740);
+
+    sf::Text pc;
+    pc.setFont(Font4Text);
+    pc.setString(std::to_string(PowerComputer));
+    pc.setCharacterSize(24);
+    pc.setPosition(570, 740);
 
     spritePergament.setPosition(0, 40);
 
@@ -945,8 +960,9 @@ int main() {
                 }
             }
 
-            sf::Text jucator;
-            
+           
+
+
 
           
             NumeJucator.setCharacterSize(30);
@@ -961,6 +977,8 @@ int main() {
             Computer.setPosition(550, 290);
             DisplayGame.draw(NumeJucator);
             DisplayGame.draw(Computer);
+            DisplayGame.draw(jucator);
+            DisplayGame.draw(pc);
             DisplayGame.display();
             DerulatorJoc = 15;
             //Prezentare Voce Mar
@@ -988,7 +1006,36 @@ int main() {
                 SoundArc.play();
             }
 
+
             
+            if (DerulatorJoc == 15) {
+              //  PowerJucator = PowerJucator - 1;
+              //  jucator.setString(std::to_string(PowerJucator));
+              //  DisplayGame.draw(jucator);
+                sf::sleep(sf::milliseconds(10000));
+                while (!startGame)
+                {
+                    std::random_device deviceNum;
+                    std::uniform_int_distribution <int> distributie_nrRandom(1, 10); 
+                    startGame = distributie_nrRandom(deviceNum);
+
+                    if (startGame == 1 || startGame == 3 || startGame == 8 || startGame == 10 || startGame == 5) {
+                        std::cout << "Player incepe jocul : " << startGame << std::endl;
+                        sound.Sound_User();
+                        sf::Sound& SoundUser = sound.getSoundUser();
+                        SoundUser.play();
+                    }
+                    else {
+                        std::cout << "Calculator incepe jocul : " << startGame << std::endl;
+                        sound.Sound_Computer();
+                        sf::Sound& SoundComputer = sound.getSoundComputer();
+                        SoundComputer.play();
+                    }
+
+                    
+                }
+
+            }
 
         }
        

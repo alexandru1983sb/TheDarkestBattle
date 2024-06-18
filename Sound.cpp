@@ -226,6 +226,32 @@ void Sound::Sound_Arc()
 	SoundArc.play();
 }
 
+void Sound::Sound_Computer()
+{
+	SoundBufferComputer.loadFromFile("sound/computerStartGame.mp3");
+	if (!SoundBufferComputer.loadFromFile("sound/computerStartGame.mp3")) {
+		std::cout << RED << "Eroare incarcare sunet computerStartGame" << RESET << std::endl;
+	}
+	else {
+		std::cout << GREEN << "Sunetul computerStartGame s-a incarcat cu succes." << RESET << std::endl;
+	}
+	SoundComputer.setBuffer(SoundBufferComputer);
+	SoundComputer.play();
+}
+
+void Sound::Sound_User()
+{
+	SoundBufferUser.loadFromFile("sound/userStartGame.mp3");
+	if (!SoundBufferUser.loadFromFile("sound/userStartGame.mp3")) {
+		std::cout << RED << "Eroare incarcare sunet userStartGame" << RESET << std::endl;
+	}
+	else {
+		std::cout << GREEN << "Sunetul userStartGame s-a incarcat cu succes." << RESET << std::endl;
+	}
+	SoundUser.setBuffer(SoundBufferUser);
+	SoundUser.play();
+}
+
 
 
 // Metoda pentru a obține Sound
@@ -308,6 +334,16 @@ sf::Sound& Sound::getSoundPiatra()
 sf::Sound& Sound::getSoundArc()
 {
 	return SoundArc;
+}
+
+sf::Sound& Sound::getSoundComputer()
+{
+	return SoundComputer;
+}
+
+sf::Sound& Sound::getSoundUser()
+{
+	return SoundUser;
 }
 
 
