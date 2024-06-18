@@ -960,9 +960,10 @@ int main() {
                 }
             }
 
-           
-           
+            sf::Text jucator;
+            
 
+          
             NumeJucator.setCharacterSize(30);
             NumeJucator.setFillColor(sf::Color::White);
             NumeJucator.setFont(Font4Text);
@@ -1030,10 +1031,8 @@ int main() {
                     }
 
                     
-                }
-
+            
             }
-
         }
        
         
@@ -1054,13 +1053,5 @@ int main() {
     }
     
     
-
+}
     
-
-
-
-
-
-
-
-
