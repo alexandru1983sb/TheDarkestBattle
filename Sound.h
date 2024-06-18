@@ -25,6 +25,8 @@ public:
 	void Sound_Mar();
 	void Sound_Piatra();
 	void Sound_Arc();
+	void Sound_Computer();
+	void Sound_User();
 
 
 	// Metoda pentru a obține sprite-ul
@@ -44,6 +46,8 @@ public:
 	sf::Sound& getSoundMar();
 	sf::Sound& getSoundPiatra();
 	sf::Sound& getSoundArc();
+	sf::Sound& getSoundComputer();
+	sf::Sound& getSoundUser();
 
 private:
 
@@ -104,6 +108,15 @@ private:
 	//Descriere arc
 	sf::SoundBuffer SoundBufferArc;
 	sf::Sound SoundArc;
+
+	//Sound Computer
+	sf::SoundBuffer SoundBufferComputer;
+	sf::Sound SoundComputer;
+
+	//Sound User
+	sf::SoundBuffer SoundBufferUser;
+	sf::Sound SoundUser;
+
 
 };
 
