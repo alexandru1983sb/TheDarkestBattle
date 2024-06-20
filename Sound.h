@@ -27,6 +27,8 @@ public:
 	void Sound_Arc();
 	void Sound_Computer();
 	void Sound_User();
+	void Sound_WinnerPC();
+	void Sound_WinnerPlayer();
 
 
 	// Metoda pentru a obține sprite-ul
@@ -48,6 +50,8 @@ public:
 	sf::Sound& getSoundArc();
 	sf::Sound& getSoundComputer();
 	sf::Sound& getSoundUser();
+	sf::Sound& getSoundWinnerPC();
+	sf::Sound& getSoundWinnerUser();
 
 private:
 
@@ -116,6 +120,14 @@ private:
 	//Sound User
 	sf::SoundBuffer SoundBufferUser;
 	sf::Sound SoundUser;
+
+	// Castigator Calculator
+	sf::SoundBuffer SoundBufferCalculator;
+	sf::Sound SoundWinnerCalculator;
+
+	// Castigator User
+	sf::SoundBuffer SoundBufferWinUser;
+	sf::Sound SoundWinnerUser;
 
 
 };

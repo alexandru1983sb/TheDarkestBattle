@@ -20,6 +20,7 @@ void Sound::Sound_Menu()
 		std::cout << GREEN << "Sunetul MainMenu s-a incarcat cu succes." << RESET << std::endl;
 	}
 	SoundMenu.setBuffer(SoundBufferMenu);
+	SoundMenu.setVolume(40);
 	SoundMenu.play();
 }
 
@@ -252,6 +253,32 @@ void Sound::Sound_User()
 	SoundUser.play();
 }
 
+void Sound::Sound_WinnerPC()
+{
+	SoundBufferCalculator.loadFromFile("sound/CastigatorulesteCalculatorul.mp3");
+	if (!SoundBufferCalculator.loadFromFile("sound/CastigatorulesteCalculatorul.mp3")) {
+		std::cout << RED << "Eroare incarcare sunet CastigatorulesteCalculatorul." << RESET << std::endl;
+	}
+	else {
+		std::cout << GREEN << "Sunetul CastigatorulesteCalculatorul s-a incarcat cu succes." << RESET << std::endl;
+	}
+	SoundWinnerCalculator.setBuffer(SoundBufferCalculator);
+	SoundWinnerCalculator.play();
+}
+
+void Sound::Sound_WinnerPlayer()
+{
+	SoundBufferWinUser.loadFromFile("sound/CastigatorulestePlayer.mp3");
+	if (!SoundBufferWinUser.loadFromFile("sound/CastigatorulestePlayer.mp3")) {
+		std::cout << RED << "Eroare incarcare sunet CastigatorulestePlayer." << RESET << std::endl;
+	}
+	else {
+		std::cout << GREEN << "Sunetul CastigatorulestePlayer s-a incarcat cu succes." << RESET << std::endl;
+	}
+	SoundWinnerUser.setBuffer(SoundBufferWinUser);
+	SoundWinnerUser.play();
+}
+
 
 
 // Metoda pentru a obține Sound
@@ -344,6 +371,16 @@ sf::Sound& Sound::getSoundComputer()
 sf::Sound& Sound::getSoundUser()
 {
 	return SoundUser;
+}
+
+sf::Sound& Sound::getSoundWinnerPC()
+{
+	return SoundWinnerCalculator;
+}
+
+sf::Sound& Sound::getSoundWinnerUser()
+{
+	return SoundWinnerUser;
 }
 
 

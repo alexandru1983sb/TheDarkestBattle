@@ -81,6 +81,11 @@ void Texte::Text_NumeJucator()
 	NumeJucator.setString(" ");
 }
 
+void Texte::Text_Castigator()
+{
+	Castigator.setString("Castigatorul este : ");
+}
+
 
 
 
@@ -148,5 +153,10 @@ sf::Text& Texte::getplayerNameLabel()
 sf::Text& Texte::getNumeJucator()
 {
 	return NumeJucator;
+}
+
+sf::Text& Texte::getCastigator()
+{
+	return Castigator;
 }
 

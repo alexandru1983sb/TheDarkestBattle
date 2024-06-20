@@ -12,7 +12,6 @@
 #define GREEN   "\033[32m"
 
 
-
 int main() {
     sf::RenderWindow DisplayGame(sf::VideoMode(800, 800), "The Darkest Battle");
    
@@ -36,6 +35,10 @@ int main() {
     int startGame = 0;
     // Variabila pentru a stoca numele introdus
     std::string inputName;
+    // Sunet castigator
+    int Winner = 0;
+
+    int weapon1 = 0, weapon2 = 0, weapon3 = 0, Jucator = 10, ComputerPC = 10;
 
     sf::Font Font4Text;
     Font4Text.loadFromFile("GreatVibes-Regular.ttf");
@@ -46,7 +49,6 @@ int main() {
     else {
         std::cout << GREEN << "Font-ul GreatVibes-Regular s-a incarcat cu succes." << RESET << std::endl;
     }
-
 
     // Creează o instanță a clasei Poze
     Poze poze;
@@ -85,7 +87,6 @@ int main() {
     sf::Sprite& spriteSageata = poze.getSpriteSageata();
     sf::Texture& textureSageata = poze.gettextureSageata();
 
-
     // Creează o instanță a clasei Sound
     Sound sound;
    
@@ -105,6 +106,7 @@ int main() {
     texte.Text_AlegeCutia();
     texte.Text_playerNameLabel();
     texte.Text_NumeJucator();
+    texte.Text_Castigator();
 
     // Accesează Text folosind metoda publică 
     sf::Text& NumeJoc = texte.getNumeJoc();
@@ -120,6 +122,7 @@ int main() {
     sf::Text& AlegeCutia = texte.getAlegeCutia();
     sf::Text& playerNameLabel = texte.getplayerNameLabel();
     sf::Text& NumeJucator = texte.getNumeJucator();
+    sf::Text& Castigator = texte.getCastigator();
 
     // Titlul Jocului
     NumeJoc.setCharacterSize(65);
@@ -166,7 +169,6 @@ int main() {
     scaleCufar3Y = targetSizeCufar3.y / textureCufar3.getSize().y;
     spriteCufar3.setScale(scaleCufar3X, scaleCufar3Y);
     spriteCufar3.setPosition(540, 450);
-
 
     //Orc Prezentare
     OrcText.setCharacterSize(28);
@@ -275,8 +277,18 @@ int main() {
     pc.setCharacterSize(24);
     pc.setPosition(570, 740);
 
-    spritePergament.setPosition(0, 40);
+    Castigator.setFont(Font4Text);
+    Castigator.setCharacterSize(36);
+    Castigator.setPosition(300, 300);
 
+    sf::Text Computer;
+    Computer.setString("Computer");
+    Computer.setFillColor(sf::Color::White);
+    Computer.setCharacterSize(30);
+    Computer.setFont(Font4Text);
+    Computer.setPosition(550, 290);
+
+    spritePergament.setPosition(0, 40);
 
     while (DisplayGame.isOpen()) {
         sf::Event event;
@@ -314,7 +326,6 @@ int main() {
             TextNext.setFillColor(sf::Color::Green); // Revenim la culoarea verde
             butonClicat = false;
         }
-
 
         // Prezentare Goblin
         if (DerulatorJoc == 0) {
@@ -357,7 +368,6 @@ int main() {
             }
             
         }
-
 
         //Prezentare Orc
         if (DerulatorJoc == 2) {
@@ -429,7 +439,6 @@ int main() {
                 }
                 DerulatorJoc = 5;
             }
-
         }
         else  if (DerulatorJoc == 5) {
             DisplayGame.draw(spritePergament);
@@ -444,10 +453,7 @@ int main() {
                 sf::Sound& SoundTrollVoice = sound.getSoundTrollVoice();
                 DerulatorSunet = DerulatorSunet + 1;
             }
-           
- 
         }
-
 
         if (DerulatorJoc == 6) {
             DisplayGame.draw(TextNext);
@@ -467,7 +473,6 @@ int main() {
                 sf::Sound& SoundMenu = sound.getSoundMenu();
                 DerulatorSunet = DerulatorSunet + 1;
             }
-
 
             // Goblin
             if (DerulatorJoc == 7) {
@@ -587,7 +592,6 @@ int main() {
                             DisplayGame.draw(TrollName);
                             spriteTroll.setPosition(trollx, trolly);
                             DisplayGame.draw(spriteTroll);
-
                             //Orc
                             DisplayGame.draw(spriteOrc);
                             DisplayGame.display();
@@ -606,7 +610,6 @@ int main() {
         }
 
         if (DerulatorJoc == 8) {
-
 
             //Goblin
             GoblinName.setPosition(goblintextx, goblintexty);
@@ -627,7 +630,6 @@ int main() {
             DisplayGame.display();
             std::this_thread::sleep_for(std::chrono::milliseconds(1000));
             DerulatorJoc = 9;
-
         }
 
         if (DerulatorJoc == 9) {
@@ -657,8 +659,6 @@ int main() {
                 butonClicat = false;
             }
 
-
-
             if (mousePoss.x >= 540 && mousePoss.x <= 600 && mousePoss.y >= 355 && mousePoss.y <= 385 && DerulatorJoc == 9) {
 
                 ExitText.setFillColor(sf::Color::Red); // Schimbăm culoarea la roșu
@@ -678,11 +678,13 @@ int main() {
                 ExitText.setFillColor(sf::Color::Green); // Schimbăm culoarea la verde 
                 DisplayGame.draw(ExitText);
                 butonClicat = false;
-
             }
 
             DisplayGame.display();
+        }
 
+        if (DerulatorJoc == 12) {
+            DisplayGame.close();
         }
 
         //Apelam Sunetul
@@ -695,8 +697,6 @@ int main() {
 
         if (DerulatorJoc == 10) {
            
-
-
             // Verificăm poziția cursorului
             sf::Vector2i mousePossCufar1 = sf::Mouse::getPosition(DisplayGame);
             //std::cout << "x " << mousePossCufar1.x << std::endl;
@@ -762,7 +762,6 @@ int main() {
                 SoundChooseThebox.play();
                 DerulatorSunet = DerulatorSunet + 1;
 
-                
                 if (DerulatorJoc == 10) {
                     std::string Alegecutia = AlegeCutia.getString().toAnsiString();
                     for (size_t i = 0; i < Alegecutia.size(); ++i) {
@@ -788,7 +787,6 @@ int main() {
             DisplayGame.display();
 
         }
-
 
         if (PlayerAlegere >= 1 && DerulatorJoc == 13) {
             DisplayGame.clear();
@@ -820,7 +818,7 @@ int main() {
         if (DerulatorJoc == 14) {
             // Alocam numerele random
             sf::Text NumeCutie1, NumeCutie2, NumeCutie3;
-            int weapon1 = 0, weapon2 = 0, weapon3 = 0, Jucator = 10, ComputerPC = 10;
+            
             // Declară pointerul în afara blocurilor if
             sf::Text* Numecutie1 = nullptr;
             sf::Text* Numecutie2 = nullptr;
@@ -830,7 +828,6 @@ int main() {
             Numecutie2 = &NumeCutie2;
             Numecutie3 = &NumeCutie3;
 
-
             while (!secret_box1 || !secret_box2 || !secret_box3 || !CalculatorAlege )
             {
                 std::random_device device;
@@ -839,30 +836,25 @@ int main() {
                     secret_box1 = distributie_nr(device);
                     weapon1 = distributie_nr(device);
                     std::cout << "secret_box1 : " << secret_box1 << std::endl;
-                    std::cout << "weapon1 : " << weapon1 << std::endl;
-                    
+                    std::cout << "weapon1 : " << weapon1 << std::endl;   
                 }
                 if (secret_box2 == 0) {
                     secret_box2 = distributie_nr(device);
                     weapon2 = distributie_nr(device);
                     std::cout << "secret_box2 : " << secret_box2 << std::endl;
-                    std::cout << "weapon2 : " << weapon2 << std::endl;
-                    
+                    std::cout << "weapon2 : " << weapon2 << std::endl;  
                 }
                 if (secret_box3 == 0) {
                     secret_box3 = distributie_nr(device);
                     weapon3 = distributie_nr(device);
                     std::cout << "secret_box3 : " << secret_box3 << std::endl;
-                    std::cout << "weapon3 : " << weapon3 << std::endl;
-                    
+                    std::cout << "weapon3 : " << weapon3 << std::endl; 
                 }
                 if (CalculatorAlege == 0) {
                     CalculatorAlege = distributie_nr(device);
                     std::cout << "Calculatorul a ales : " << CalculatorAlege << std::endl;
-                    std::cout << "Player a ales : " << PlayerAlegere << std::endl;
-                    
+                    std::cout << "Player a ales : " << PlayerAlegere << std::endl;  
                 }
-        
             }
 
             if (PlayerAlegere == 1) {
@@ -875,14 +867,17 @@ int main() {
                 case 1: if (secret_box1 == 1) {
                     DisplayGame.draw(spriteGoblin);
                     DisplayGame.draw(spriteMar);
+                    PlayerAlegere = 1;
                 } break;
                 case 2: if (secret_box1 == 2) {
                     DisplayGame.draw(spriteOrc); 
                     DisplayGame.draw(spritePiatra);
+                    PlayerAlegere = 2;
                 }break;
                 case 3: if (secret_box1 == 3) {
                     DisplayGame.draw(spriteTroll);
                     DisplayGame.draw(spriteSageata);
+                    PlayerAlegere = 3;
                 }break;
                 default:
                     break;
@@ -899,14 +894,17 @@ int main() {
                 case 1: if (secret_box2 == 1) {
                     DisplayGame.draw(spriteGoblin);
                     DisplayGame.draw(spriteMar);
+                    PlayerAlegere = 1;
                 } break;
                 case 2: if (secret_box2 == 2) {
                     DisplayGame.draw(spriteOrc);
                     DisplayGame.draw(spritePiatra);
+                    PlayerAlegere = 2;
                 }break;
                 case 3: if (secret_box2 == 3) {
                     DisplayGame.draw(spriteTroll);
                     DisplayGame.draw(spriteSageata);
+                    PlayerAlegere = 3;
                 }break;
                 default:
                     break;
@@ -923,14 +921,17 @@ int main() {
                 case 1: if (secret_box3 == 1) {
                     DisplayGame.draw(spriteGoblin);
                     DisplayGame.draw(spriteMar);
+                    PlayerAlegere = 1;
                 } break;
                 case 2: if (secret_box3 == 2) {
                     DisplayGame.draw(spriteOrc);
                     DisplayGame.draw(spritePiatra);
+                    PlayerAlegere = 2;
                 }break;
                 case 3: if (secret_box3 == 3) {
                     DisplayGame.draw(spriteTroll);
                     DisplayGame.draw(spriteSageata);
+                    PlayerAlegere = 3;
                 }break;
                 default:
                     break;
@@ -958,22 +959,13 @@ int main() {
                     spriteSageata.setPosition(550, 650);
                     DisplayGame.draw(spriteSageata);
                 }
+
             }
-
-            sf::Text jucator;
-            
-
-          
+        
             NumeJucator.setCharacterSize(30);
             NumeJucator.setFillColor(sf::Color::White);
             NumeJucator.setFont(Font4Text);
             NumeJucator.setPosition(170, 285);
-            sf::Text Computer;
-            Computer.setString("Computer");
-            Computer.setFillColor(sf::Color::White);
-            Computer.setCharacterSize(30);
-            Computer.setFont(Font4Text);
-            Computer.setPosition(550, 290);
             DisplayGame.draw(NumeJucator);
             DisplayGame.draw(Computer);
             DisplayGame.draw(jucator);
@@ -1005,16 +997,14 @@ int main() {
                 sf::Sound& SoundArc = sound.getSoundArc();
                 SoundArc.play();
             }
-
-
-            
+   
             if (DerulatorJoc == 15) {
-            
+
                 sf::sleep(sf::milliseconds(10000));
                 while (!startGame)
                 {
                     std::random_device deviceNum;
-                    std::uniform_int_distribution <int> distributie_nrRandom(1, 10); 
+                    std::uniform_int_distribution <int> distributie_nrRandom(1, 10);
                     startGame = distributie_nrRandom(deviceNum);
 
                     if (startGame == 2 || startGame == 3 || startGame == 6 || startGame == 7 || startGame == 10) {
@@ -1022,36 +1012,171 @@ int main() {
                         sound.Sound_User();
                         sf::Sound& SoundUser = sound.getSoundUser();
                         SoundUser.play();
+                        DerulatorJoc = 16;
                     }
                     else {
                         std::cout << "Calculator incepe jocul : " << startGame << std::endl;
                         sound.Sound_Computer();
                         sf::Sound& SoundComputer = sound.getSoundComputer();
                         SoundComputer.play();
+                        DerulatorJoc = 17;
                     }
 
-                    
-            
+                }
+
             }
-        }
-       
-        
-        
-        
 
-        
-    }
-    
+            if (DerulatorJoc == 16) {
+               
+                
+                if (PlayerAlegere == 1 && CalculatorAlege == 1) {
+                    std::cout << "Player a castigat jocul" << std::endl;
+                    Winner = 1;
+                }
+                else if (PlayerAlegere == 1 && CalculatorAlege == 2) {
+                    std::cout << "Calculatorul a castigat jocul" << std::endl;
+                    Winner = 2;
+                }
+                else if (PlayerAlegere == 1 && CalculatorAlege == 3) {
+                    std::cout << "Calculatorul a castigat jocul" << std::endl;
+                    Winner = 2;
+                }
+                else if (PlayerAlegere == 2 && CalculatorAlege == 1) {
+                    std::cout << "Player a castigat jocul" << std::endl;
+                    Winner = 1;
+                }
+                else if (PlayerAlegere == 2 && CalculatorAlege == 2) {
+                    std::cout << "Player a castigat jocul" << std::endl;
+                    Winner = 1;
+                }
+                else if (PlayerAlegere == 2 && CalculatorAlege == 3) {
+                    std::cout << "Calculatorul a castigat jocul" << std::endl;
+                    Winner = 2;
+                }
+                else if (PlayerAlegere == 3 && CalculatorAlege == 1) {
+                    std::cout << "Player a castigat jocul" << std::endl;
+                    Winner = 1;
+                }
+                else if (PlayerAlegere == 3 && CalculatorAlege == 2) {
+                    std::cout << "Player a castigat jocul" << std::endl;
+                    Winner = 1;
+                }
+                else if (PlayerAlegere == 3 && CalculatorAlege == 3) {
+                    std::cout << "Player a castigat jocul" << std::endl;
+                    Winner = 1;
+                }
+                
+                if (Winner) {
+                    if (Winner == 1 && DerulatorJoc == 16) {
+                        sf::sleep(sf::milliseconds(3000));
+                        sound.Sound_WinnerPlayer();
+                        sf::Sound& SoundWinnerUser = sound.getSoundWinnerUser();
+                        SoundWinnerUser.play();
+                        DisplayGame.clear();
+                        DisplayGame.draw(spriteBackground);
+                        DisplayGame.draw(spritePergament);
+                        DisplayGame.draw(NumeJoc);
+                        DisplayGame.draw(Castigator);
+                        NumeJucator.setCharacterSize(50);
+                        NumeJucator.setPosition(320, 350);
+                        DisplayGame.draw(NumeJucator);
+                        DisplayGame.display();
+                    }
+                    else {
+                        sf::sleep(sf::milliseconds(3000));
+                        sound.Sound_WinnerPC();
+                        sf::Sound& SoundWinnerPC = sound.getSoundWinnerPC();
+                        SoundWinnerPC.play();
+                        DisplayGame.clear();
+                        DisplayGame.draw(spriteBackground);
+                        DisplayGame.draw(spritePergament);
+                        DisplayGame.draw(NumeJoc);
+                        DisplayGame.draw(Castigator);
+                        Computer.setPosition(320, 350); 
+                        Computer.setCharacterSize(50);
+                        DisplayGame.draw(Computer);
+                        DisplayGame.display();
+                    }
+                }
 
-        
-        if (DerulatorJoc == 12) {
-            DisplayGame.close();
+            }
+
+
+                if (DerulatorJoc == 17) {
+                    if (CalculatorAlege == 1 && PlayerAlegere == 1) {
+                        std::cout << "Calculatorul a castigat jocul" << std::endl;
+                        Winner = 2;
+                    }
+                    else if (CalculatorAlege == 1 && PlayerAlegere == 2) {
+                        std::cout << "Player a castigat jocul" << std::endl;
+                        Winner = 1;
+                    }
+                    else if (CalculatorAlege == 1 && PlayerAlegere == 3) {
+                        std::cout << "Player a castigat jocul" << std::endl;
+                        Winner = 1;
+                    }
+                    else if (CalculatorAlege == 2 && PlayerAlegere == 1) {
+                        std::cout << "Calculatorul a castigat jocul" << std::endl;
+                        Winner = 2;
+                    }
+                    else if (CalculatorAlege == 2 && PlayerAlegere == 2) {
+                        std::cout << "Calculatorul a castigat jocul" << std::endl;
+                        Winner = 2;
+                    }
+                    else if (CalculatorAlege == 2 && PlayerAlegere == 3) {
+                        std::cout << "Player a castigat jocul" << std::endl;
+                        Winner = 1;
+                    }
+                    else if (CalculatorAlege == 3 && PlayerAlegere == 1) {
+                        std::cout << "Calculatorul a castigat jocul" << std::endl;
+                        Winner = 2;
+                    }
+                    else if (CalculatorAlege == 3 && PlayerAlegere == 2) {
+                        std::cout << "Calculatorul a castigat jocul" << std::endl;
+                        Winner = 2;
+                    }
+                    else if (CalculatorAlege == 3 && PlayerAlegere == 3) {
+                        std::cout << "Calculatorul a castigat jocul" << std::endl;
+                        Winner = 2;
+                    }
+                    if (Winner && DerulatorJoc == 17) {
+                        if (Winner == 1) {
+                            sf::sleep(sf::milliseconds(3000));
+                            sound.Sound_WinnerPlayer();
+                            sf::Sound& SoundWinnerUser = sound.getSoundWinnerUser();
+                            SoundWinnerUser.play();
+                            DisplayGame.clear();
+                            DisplayGame.draw(spriteBackground);
+                            DisplayGame.draw(spritePergament);
+                            DisplayGame.draw(NumeJoc);
+                            DisplayGame.draw(Castigator);
+                            NumeJucator.setPosition(320, 350);
+                            NumeJucator.setCharacterSize(50);
+                            DisplayGame.draw(NumeJucator);
+                            DisplayGame.display();
+                        }
+                        else {
+                            sf::sleep(sf::milliseconds(3000));
+                            sound.Sound_WinnerPC();
+                            sf::Sound& SoundWinnerPC = sound.getSoundWinnerPC();
+                            SoundWinnerPC.play();
+                            DisplayGame.clear();
+                            DisplayGame.draw(spriteBackground);
+                            DisplayGame.draw(spritePergament);
+                            DisplayGame.draw(NumeJoc);
+                            DisplayGame.draw(Castigator);
+                            Computer.setCharacterSize(50);
+                            Computer.setPosition(320, 350);
+                            DisplayGame.draw(Computer);
+                            DisplayGame.display();
+                        }
+                    }
+                }
         }
-       
-        
-       
     }
-    
-    
+     
 }
     
+    
+
+   

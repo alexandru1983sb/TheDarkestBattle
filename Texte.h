@@ -20,6 +20,7 @@ public:
 	void Text_AlegeCutia();
 	void Text_playerNameLabel();
 	void Text_NumeJucator();
+	void Text_Castigator();
 
 	// Metoda pentru a obține Text
 	sf::Text& getNumeJoc();
@@ -42,6 +43,8 @@ public:
 	//Metoda playerNameLabel & NumeJucator
 	sf::Text& getplayerNameLabel();
 	sf::Text& getNumeJucator();
+	// Medoda Fight
+	sf::Text& getCastigator();
 	
 
 private:
@@ -69,6 +72,8 @@ private:
 	sf::Text playerNameLabel;
 	// Nume Jucator
 	sf::Text NumeJucator;
+	// Nume Fight
+	sf::Text Castigator;
 	
 	
 };
